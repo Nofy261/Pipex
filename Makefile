@@ -5,6 +5,9 @@ CC= gcc
 CFLAGS = -Wall -Werror -Wextra -g
 
 FSRCS = main.c \
+		utils.c \
+		utils2.c \
+
 
 FBONUS = 
 
@@ -12,20 +15,20 @@ FBONUS =
 
 OFILES = $(FSRCS:.c=.o)
 
-OFBONUS = $(FBONUS:.c=.o)
+# OFBONUS = $(FBONUS:.c=.o)
 
-ARRC=ar -rc
 
 all : $(NAME)
 
 $(NAME) : $(OFILES)
-		$(ARRC) $(NAME) $(OFILES)
+	$(CC) $(CFLAGS) -o $(NAME) $(OFILES)
 
-bonus : $(OFBONUS)
-		$(ARRC) $(NAME) $(OFBONUS)
-		
+#bonus : $(OFBONUS)
+#	$(NAME) $(OFBONUS)
+
+# dans le clean penser a remettre le $(OFBONUS)
 clean :
-	rm -f $(OFILES) $(OFBONUS)
+	rm -f $(OFILES) 
 
 fclean : clean
 	rm -f $(NAME)
