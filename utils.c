@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 09:15:44 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/01 09:16:50 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/01 16:40:05 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static size_t	count_words(const char *s, char c)
 	return (counter);
 }
 
-static void	*free_all(char **str)
+void	*free_all(char **str)
 {
 	int	i;
 

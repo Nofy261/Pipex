@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 09:18:35 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/01 09:20:24 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/01 16:40:20 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,3 +65,16 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (result);
 }
 
+// void	*free_all(char **str)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		free(str[i]);
+// 		i++;
+// 	}
+// 	free(str);
+// 	return (NULL);
+// }
