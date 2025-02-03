@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 09:13:19 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/01 16:38:25 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/03 09:44:54 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		child_second(int *pipefd, char **argv, char **envp);
 int		open_infile(char **argv);
 int		open_outfile(char **argv);
 
-
+void	error(void);
 
 
 
