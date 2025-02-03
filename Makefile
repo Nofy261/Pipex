@@ -7,26 +7,17 @@ CFLAGS = -Wall -Werror -Wextra -g
 FSRCS = main.c \
 		utils.c \
 		utils2.c \
-
-
-FBONUS = 
-
-
+		fork_and_exec.c \
+		get_path.c \
+		open_file.c \
 
 OFILES = $(FSRCS:.c=.o)
-
-# OFBONUS = $(FBONUS:.c=.o)
-
 
 all : $(NAME)
 
 $(NAME) : $(OFILES)
 	$(CC) $(CFLAGS) -o $(NAME) $(OFILES)
 
-#bonus : $(OFBONUS)
-#	$(NAME) $(OFBONUS)
-
-# dans le clean penser a remettre le $(OFBONUS)
 clean :
 	rm -f $(OFILES) 
 
@@ -35,4 +26,4 @@ fclean : clean
 	
 re : fclean $(NAME)
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re

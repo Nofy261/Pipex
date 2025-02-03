@@ -6,184 +6,22 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 10:26:58 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/03 10:36:30 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:32:46 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <stdio.h>
-#include <errno.h>
-
-
-int	open_infile(char **argv)
-{
-	int	fd_infile;
-
-	fd_infile = open(argv[1], O_RDONLY);// ajouter 0777??
-	if (fd_infile == -1)
-	{
-		perror("Error opening infile : ");
-		return(-1);
-	}
-	//return (0);
-	return(fd_infile);
-}
-int	open_outfile(char **argv)
-{
-	int fd_outfile;
-	
-	fd_outfile = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	if (fd_outfile == -1)
-	{
-		perror("Error opening outfile ");
-		return (-1);
-	}
-	//return (0);
-	return (fd_outfile);
-}
-
-
-
-char	**find_path(char **envp)
-{
-	int	i;
-	char **path;
-	
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{	
-			path = ft_split(envp[i] + 5, ':'); // (MALLOC)
-			return (path);
-		}
-		i++;
-	}
-	// exit + message d'erreur;
-	return (NULL);
-}
-	
-// doit return "/bin/ls" et sera envoyé a execve();	
-char	*get_path_complete(char **envp, char *cmd)
-{	
-	//int j;
-	int	i;
-	char **path;
-	char *tmp;
-	char *final_path;
-	
-	//j = 0;
-	i = 0;
-	
-	path = find_path(envp);
-	if (!path)
-		return (NULL);
-	while (path[i])
-	{
-		tmp = ft_strjoin(path[i], "/"); // /bin sera /bin/ (MALLOC dans strjoin donc FREE)
-		final_path = ft_strjoin(tmp, cmd); // (MALLOC);
-		free(tmp);
-		if (access(final_path, X_OK ) == 0)
-		{
-			// while(path[j])
-			// {
-			// 	free(path[j]);
-			// 	j++;
-			// }
-			// free(path);
-			return (final_path);
-		}	
-		free(final_path);
-		i++;
-	}
-	free_all(path);
-	return (NULL);
-}
-
-int	child_first(int *pipefd, char **argv, char **envp)
-{
-	pid_t	pid1;
-	char **cmd_args;
-	char *path;
-	int		infile;
-
-	infile = open_infile(argv);
-	pid1 = fork();
-	if (pid1 == -1)
-	{
-		printf("erreur child1 a\n");
-		error();
-	}
-	if (pid1 == 0)
-	{
-		close(pipefd[0]);
-		dup2(infile, STDIN_FILENO);
-		close(infile);
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
-		cmd_args = ft_split(argv[2], ' ');
-		path = get_path_complete(envp, cmd_args[0]);
-		if (execve(path, cmd_args, envp) == -1)
-		{
-			printf("Erreur child1 b\n");
-			error();
-        // 	free(path);
-        // 	return (1);
-		}
-	}
-	close(infile);
-	return (pid1);
-}
-
-
-int	child_second(int *pipefd, char **argv, char **envp)
-{
-	pid_t	pid2;
-	char **cmd_args;
-	char *path;
-	int		outfile;
-
-	outfile = open_outfile(argv);
-	pid2 = fork();
-	if (pid2 == -1)
-	{
-		printf("Erreur child2 a\n");
-	}	error();
-	if (pid2 == 0)
-	{
-		close(pipefd[1]);
-		dup2(outfile, STDOUT_FILENO);
-		close(outfile);
-		dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[0]);
-		cmd_args = ft_split(argv[3], ' ');
-		path = get_path_complete(envp, cmd_args[0]);
-		if (execve(path, cmd_args, envp) == -1)
-		{
-			printf("erreur child2 b\n");
-			error();
-        // 	free(path);
-        // 	return (1);
-		}
-	}
-	close(outfile);
-	return (pid2);
-}
-
 
 int	main(int argc, char **argv, char **envp)
 {
+	int		fd[2];
 	pid_t	pid1;
 	pid_t	pid2;
-	int		fd[2];
 
 	if (argc == 5)
 	{
 		if (pipe(fd) == -1)
-		{
-			printf("Erreur main pipefd = -1\n");
 			error();
-		}
 		pid1 = child_first(fd, argv, envp);// creer le P enfant et execute la 1ere cmd
 		pid2 = child_second(fd, argv, envp); // creer le 2e P enfant et execute la 2em cmd en lisant la sortie du 1er P via le pipe
 		
@@ -193,9 +31,6 @@ int	main(int argc, char **argv, char **envp)
 		waitpid(pid2, NULL, 0);
 	}
 	else
-	{
-		printf("erreur main fin\n");
 		error();
-	}
 	return (0);
 }

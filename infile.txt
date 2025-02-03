@@ -1,7 +1,5 @@
-Bonjour.sort
-a1
-fjdfj.sort
-a1 
-ffffo 
-a1.sort
-a8.sort
+Bonjour toi
+Bonjour madame
+Bonsoir
+Aurevoir
+Bonjour monsieur

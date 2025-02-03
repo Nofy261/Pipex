@@ -6,13 +6,11 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 09:18:35 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/03 10:36:51 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:18:57 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <errno.h>
-#include <stdio.h>
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -67,23 +65,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (result);
 }
 
-// void	*free_all(char **str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		free(str[i]);
-// 		i++;
-// 	}
-// 	free(str);
-// 	return (NULL);
-// }
-
 void	error(void)
 {
 	perror("Error :");
-	fprintf(stderr, "errno: %d\n", errno);
 	exit(EXIT_FAILURE);
 }
