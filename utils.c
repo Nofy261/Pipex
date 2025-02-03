@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 09:15:44 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/01 16:40:05 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/03 15:54:50 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ void	*free_all(char **str)
 	while (str[i])
 	{
 		free(str[i]);
+		// str[i] = NULL;
 		i++;
 	}
 	free(str);
+	//str = NULL;
 	return (NULL);
 }
 

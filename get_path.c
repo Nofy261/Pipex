@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:05:16 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/03 14:16:41 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/03 16:10:23 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,18 @@ char	**find_path(char **envp)
 		}
 		i++;
 	}
-	// exit + message d'erreur;
+	perror("Error : path not found ");
 	return (NULL);
 }
 
 char	*get_path_complete(char **envp, char *cmd)
 {	
-	//int j;
 	int	i;
 	char **path;
 	char *tmp;
 	char *final_path;
 	
-	//j = 0;
 	i = 0;
-	
 	path = find_path(envp);
 	if (!path)
 		return (NULL);
@@ -52,12 +49,7 @@ char	*get_path_complete(char **envp, char *cmd)
 		free(tmp);
 		if (access(final_path, X_OK ) == 0)
 		{
-			// while(path[j])
-			// {
-			// 	free(path[j]);
-			// 	j++;
-			// }
-			// free(path);
+			free_all(path);
 			return (final_path);
 		}	
 		free(final_path);
@@ -66,3 +58,4 @@ char	*get_path_complete(char **envp, char *cmd)
 	free_all(path);
 	return (NULL);
 }
+
