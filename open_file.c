@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:12:17 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/03 14:12:59 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/04 11:00:55 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	open_infile(char **argv)
 	}
 	return(fd_infile);
 }
+
 int	open_outfile(char **argv)
 {
 	int fd_outfile;
@@ -36,3 +37,6 @@ int	open_outfile(char **argv)
 	}
 	return (fd_outfile);
 }
+
+// si outfile pas de droit -> exit(1);
+// si infile               -> exit(0);

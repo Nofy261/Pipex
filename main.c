@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 10:26:58 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/03 17:36:42 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/04 09:40:46 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int	main(int argc, char **argv, char **envp)
 	if (argc == 5)
 	{
 		if (pipe(fd) == -1)
+		{
 			perror("pipe failed ");
+			//return (0); ?? a confirmer
+		}
 		pid1 = child_first(fd, argv, envp);// creer le P enfant et execute la 1ere cmd
 		pid2 = child_second(fd, argv, envp); // creer le 2e P enfant et execute la 2em cmd en lisant la sortie du 1er P via le pipe
 		close(fd[0]);
@@ -30,6 +33,6 @@ int	main(int argc, char **argv, char **envp)
 		waitpid(pid2, NULL, 0);
 	}
 	else
-		ft_putstr_fd("Error\n./pipex infile cmd1 cmd2 outfile\n", 2);
+		ft_putstr_fd("Error : ./pipex infile cmd1 cmd2 outfile\n", 2);
 	return (0);
 }
