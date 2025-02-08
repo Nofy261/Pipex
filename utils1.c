@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 09:15:44 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/04 08:30:47 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/08 19:03:02 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static size_t	count_words(const char *s, char c)
 	return (counter);
 }
 
-void	*free_all(char **str) //commentaire a enlever
+void	*free_all(char **str)
 {
 	int	i;
 
@@ -46,11 +46,9 @@ void	*free_all(char **str) //commentaire a enlever
 	while (str[i])
 	{
 		free(str[i]);
-		// str[i] = NULL;
 		i++;
 	}
 	free(str);
-	//str = NULL;
 	return (NULL);
 }
 
@@ -109,3 +107,4 @@ char	**ft_split(char const *s, char c)
 	set_mem(result, s, c);
 	return (result);
 }
+

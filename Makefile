@@ -5,8 +5,9 @@ CC= cc
 CFLAGS = -Wall -Werror -Wextra -g
 
 FSRCS = main.c \
-		utils.c \
+		utils1.c \
 		utils2.c \
+		utils3.c \
 		fork_and_exec.c \
 		get_path.c \
 		open_file.c \
