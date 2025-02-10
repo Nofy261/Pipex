@@ -6,126 +6,73 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:08:02 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/08 18:58:42 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/10 08:03:35 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-// a tester chemin donné directement en commande comme argument
-static int	execute_child1(int *pipefd, int infile_fd, char **argv, char **envp)
+static void	child_second(t_cmd *cmd, char **envp)
 {
-	char	**cmd_args;
-	char	*path;
-
-	close_dup_fd_child_first(pipefd, infile_fd);
-	cmd_args = ft_split(argv[2], ' ');
-	 // si pas de 1ere cmd , la 2em cmd ne se fera pas
-	if (!cmd_args || !cmd_args[0])
-	{
-		free_all(cmd_args);
-		ft_putstr_fd("cmd1 not found\n", 2);
-		close(infile_fd);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		exit(127);
-		// return (-1);
-	}
-	path = get_path_complete(envp, cmd_args[0]);
-	if (!path)
-	{
-		free_all(cmd_args);
-		return (-1);
-	}
-	if (execve(path, cmd_args, envp) == -1)
-	{
-		ft_putstr_fd("First command failed\n", 2);
-		free_all(cmd_args);
-		free(path);
-		return (-1);
-	}
-	return (0);
+	close(cmd->fd[1]);
+	dup2(cmd->fd[0], STDIN_FILENO);
+	close(cmd->fd[0]);
+	dup2(cmd->fd_outfile, STDOUT_FILENO);
+	close (cmd->fd_outfile);
+	if (cmd->good_paths2 && cmd->good_paths2[0])
+		execve(cmd->good_paths2[0], cmd->good_paths2, envp);
+	ft_putstr_fd("Error: Failed to execute command\n", 2);
+	exit(1);
 }
 
-int	child_first(int *pipefd, char **argv, char **envp)
+static void	execute_child2(t_cmd *cmd, char **envp)
 {
-	pid_t	pid1;
-	int		infile_fd;
-	int exit_status;
-	
-	infile_fd = open_infile(argv);
-	if (infile_fd == -1)
-	{	
-		// action??
-		//exit(1);
-	}
-	pid1 = fork();
-	if (pid1 == -1) // on quitte le programme en verifiant les fd ouvert avant;
-	{
-		ft_putstr_fd("fork failed 1\n", 2);
-		// return (-1);
-		close(infile_fd);
-		exit(1);
-	}
-	if (pid1 == 0)
-	{
-		exit_status = execute_child1(pipefd, infile_fd, argv, envp);
-		if (exit_status == -1)
-		{
-			ft_putstr_fd("Error in execute_child1 to find path\n", 2);
-			// return ??
-		}
-	}
-	close(infile_fd);
-	return (pid1);
-}
-
-static void	execute_child2(int *pipefd, int outfile_fd, char **argv,
-		char **envp)
-{
-	char	**cmd_args;
-	char	*path;
-
-	close_dup_fd_child_second(pipefd, outfile_fd);
-	cmd_args = ft_split(argv[3], ' ');
-	if (!cmd_args || !cmd_args[0])
-	{
-		free_all(cmd_args);
-		ft_putstr_fd("cmd2 not found\n", 2);
-		return ;
-	}
-	path = get_path_complete(envp, cmd_args[0]);
-	if (!path)
-	{
-		free_all(cmd_args);
-		ft_putstr_fd("Error in execute_child2 to find path\n", 2);
-		return ;
-	}
-	if (execve(path, cmd_args, envp) == -1)
-	{
-		perror("Second command failed ");
-		free_all(cmd_args);
-		free(path);
-	}
-}
-
-int	child_second(int *pipefd, char **argv, char **envp)
-{
-	pid_t	pid2;
-	int		outfile_fd;
-
-	outfile_fd = open_outfile(argv);
-	pid2 = fork();
-	if (pid2 == -1)
+	cmd->pid2 = fork();
+	if (cmd->pid2 == -1)
 	{
 		ft_putstr_fd("fork failed 2\n", 2);
-		// return (-1); // on continue le programme
+		close_fds(cmd);
+		free_all_paths(cmd);
+		exit(1);
 	}
-	if (pid2 == 0)
+	if (cmd->pid2 == 0)
+		child_second(cmd, envp);
+	else
 	{
-		execute_child2(pipefd, outfile_fd, argv, envp);
+		close(cmd->fd_infile);
+		close(cmd->fd_outfile);
+		close (cmd->fd[1]);
+		close (cmd->fd[0]);
+		while (waitpid(-1, NULL, 0) != -1)
+			continue ;
 	}
-	close(outfile_fd);
-	return (pid2);
-	// return (0);
+}
+
+static int	execute_child1(t_cmd *cmd, char **envp)
+{
+	close_fd_child_first(cmd);
+	dup2(cmd->fd_infile, STDIN_FILENO);
+	dup2(cmd->fd[1], STDOUT_FILENO);
+	if (cmd->good_paths1 && cmd->good_paths1[0])
+		execve(cmd->good_paths1[0], cmd->good_paths1, envp);
+	ft_putstr_fd("Error: Failed to execute command\n", 2);
+	close_fds(cmd);
+	free_all_paths(cmd);
+	exit(1);
+}
+
+void	child_first(t_cmd *cmd, char **envp)
+{
+	cmd->pid1 = fork();
+	if (cmd->pid1 == -1)
+	{
+		ft_putstr_fd("fork failed 1\n", 2);
+		close_fds(cmd);
+		free_all_paths(cmd);
+		exit(1);
+	}
+	if (cmd->pid1 == 0)
+		execute_child1(cmd, envp);
+	else
+		execute_child2(cmd, envp);
 }

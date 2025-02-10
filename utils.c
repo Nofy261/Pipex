@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 09:18:35 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/08 19:03:08 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/10 08:10:51 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,26 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		result[k++] = s2[j++];
 	result[k] = '\0';
 	return (result);
+}
+
+void	ft_putstr_fd(char *str, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		write(fd, &str[i], 1);
+		i++;
+	}
+}
+
+int	check_envp(char **envp)
+{
+	if (!envp || !envp[0])
+	{
+		ft_putstr_fd("Error : envp doesn't exist or is empty\n", 2);
+		return (0);
+	}
+	return (1);
 }

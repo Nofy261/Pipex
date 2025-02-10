@@ -1,0 +1,25 @@
+
+
+A ENLEVER
+
+
+
+- Deux commandes qui fonctionne : 
+valgrind --track-fds=yes --leak-check=full ./pipex infile.txt "cat" "wc -l" outfile.txt
+
+- Deux commandes qui fonctionne pas : 
+valgrind --track-fds=yes --leak-check=full ./pipex infile.txt "lol" "lol" outfile.txt
+
+- Premiere commande qui fonctionne pas 
+valgrind --track-fds=yes --leak-check=full ./pipex infile.txt "lol" "wc -l" outfile.txt
+
+- Deuxieme commande qui fonctionne pas 
+valgrind --track-fds=yes --leak-check=full ./pipex infile.txt "cat" "lol" outfile.txt
+
+- Il manque un argument 
+valgrind --track-fds=yes --leak-check=full ./pipex infile.txt "cat" "wc -l" 
+
+- Enlever les droits sur le infile.txt
+valgrind --track-fds=yes --leak-check=full ./pipex infile.txt "cat" "wc -l" outfile.txt
+
+- makefile ne relink pas 

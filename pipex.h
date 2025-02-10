@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 09:13:19 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/08 19:02:54 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/10 08:18:51 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,68 @@
 # define PIPEX_H
 
 # include <fcntl.h>
-# include <stdio.h>
+# include <stdio.h> // a laisser?
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
-/*  utils1.c */
-char	**ft_split(char const *s, char c);
+
+typedef struct s_cmd
+{
+	pid_t	pid1;
+	pid_t	pid2;
+	int		fd[2];
+	int		fd_infile;
+	int		fd_outfile;
+	char	**good_paths1;
+	char	**good_paths2;
+	char	*infile;
+	char	*outfile;
+	char	**paths;
+	char	*tmp;
+	char	**full_cmd;
+	char	*is_valid_cmd;
+}			t_cmd;
+
+/* close_fd.c */
+void	close_fds(t_cmd *cmd);
+void	close_fd_child_first(t_cmd *cmd);
+
+/* fork_and_exec.c */
+void	child_first(t_cmd *cmd, char **envp);
+
+/* free.c */
+void	free_all_paths(t_cmd *cmd);
 void	*free_all(char **str);
 
-/* utils2.c */
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-size_t	ft_strlen(const char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
+/* init_struc.c*/
+void	init_struct(t_cmd *cmd);
 
-/* utils3.c */
-void	close_dup_fd_child_first(int *pipefd, int infile_fd);
-void	close_dup_fd_child_second(int *pipefd, int outfile_fd);
-void	*free_and_null(void *ptr);
-void	ft_putstr_fd(char *str, int fd);
+/*  ft_split.c */
+char	**ft_split(char const *s, char c);
 
 /* get_path.c */
 char	**find_path(char **envp);
-char	*get_path_complete(char **envp, char *cmd);
+char	**get_path_complete(t_cmd *cmd, char **path, char *command);
 
-/* fork_and_exec.c */
-int		child_first(int *pipefd, char **argv, char **envp);
-int		child_second(int *pipefd, char **argv, char **envp);
 
 /* open_file.c */
-int		open_infile(char **argv);
-int		open_outfile(char **argv);
+void	open_files(t_cmd *cmd, char **argv);
+
+/* utils.c*/
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+size_t	ft_strlen(const char *s);
+char	*ft_strjoin(char const *s1, char const *s2);
+void	ft_putstr_fd(char *str, int fd);
+int		check_envp(char **envp);
+
+/* verif.c */
+char	**get_valid_paths(char **envp);
+int		validate_commands(t_cmd *cmd, char **argv);
+int		initialize_pipe(t_cmd *cmd);
+int		error_command_null(t_cmd *cmd, char **command_path,
+			char *error_message);
+
 
 #endif

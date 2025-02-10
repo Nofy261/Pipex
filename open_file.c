@@ -6,36 +6,36 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:12:17 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/08 18:56:45 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/10 08:09:24 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	open_infile(char **argv)
+void	open_infile(t_cmd *cmd, char **argv)
 {
-	int	fd_infile;
-	printf("Je suis dans open_file\n");
-	fd_infile = open(argv[1], O_RDONLY, 0777);
-	if (fd_infile == -1)
+	cmd->infile = argv[1];
+	cmd->fd_infile = open(argv[1], O_RDONLY);
+	if (cmd->fd_infile == -1)
 	{
 		ft_putstr_fd("Error opening infile\n ", 2);
-		// return(-1);
-		//exit(1);
+		exit(1);
 	}
-	printf("Je suis dans open_file avant de sortir\n");
-	return (fd_infile);
 }
 
-int	open_outfile(char **argv)
+void	open_outfile(t_cmd *cmd, char **argv)
 {
-	int	fd_outfile;
-
-	fd_outfile = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd_outfile == -1)
+	cmd->outfile = argv[4];
+	cmd->fd_outfile = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (cmd->fd_outfile == -1)
 	{
 		ft_putstr_fd("Error opening outfile\n ", 2);
-		// return (-1); ou exit(1); // a revoir
+		exit(1);
 	}
-	return (fd_outfile);
+}
+
+void	open_files(t_cmd *cmd, char **argv)
+{
+	open_infile(cmd, argv);
+	open_outfile(cmd, argv);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils1.c                                           :+:      :+:    :+:   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/01 09:15:44 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/08 19:03:02 by nolecler         ###   ########.fr       */
+/*   Created: 2025/02/10 08:05:05 by nolecler          #+#    #+#             */
+/*   Updated: 2025/02/10 08:05:33 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,6 @@ static size_t	count_words(const char *s, char c)
 		i++;
 	}
 	return (counter);
-}
-
-void	*free_all(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-	return (NULL);
 }
 
 static void	fill_result(char *new, char const *str, char c)
@@ -107,4 +93,3 @@ char	**ft_split(char const *s, char c)
 	set_mem(result, s, c);
 	return (result);
 }
-

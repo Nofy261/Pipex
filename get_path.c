@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:05:16 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/08 19:00:54 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/10 08:06:33 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,33 +31,42 @@ char	**find_path(char **envp)
 	return (NULL);
 }
 
-char	*get_path_complete(char **envp, char *cmd)
+
+static int	validate_command(char **full_cmd)
+{
+	if (full_cmd == NULL || full_cmd[0] == NULL || full_cmd[0][0] == '\0')
+	{
+		free_all(full_cmd);
+		return (0);
+	}
+	return (1);
+}
+
+char	**get_path_complete(t_cmd *cmd, char **path, char *command)
 {
 	int		i;
-	char	**path;
-	char	*tmp;
-	char	*final_path;
 
-	i = 0;
-	// cas ou l'on donne directement le chemin en cmd
-	if (access(cmd, X_OK) == 0)
-		return (cmd);
-	path = find_path(envp);
-	if (!path)
+	cmd->full_cmd = ft_split(command, ' ');
+	if (validate_command(cmd->full_cmd) == 0)
 		return (NULL);
+	if (access(cmd->full_cmd[0], X_OK) == 0)
+		return (cmd->full_cmd);
+	i = 0;
 	while (path[i])
 	{
-		tmp = ft_strjoin(path[i], "/");
-		final_path = ft_strjoin(tmp, cmd);
-		tmp = free_and_null(tmp);
-		if (access(final_path, X_OK) == 0)
+		cmd->tmp = ft_strjoin(path[i], "/");
+		cmd->is_valid_cmd = ft_strjoin(cmd->tmp, cmd->full_cmd[0]);
+		free(cmd->tmp);
+		if (access(cmd->is_valid_cmd, X_OK) == 0)
 		{
-			free_all(path);
-			return (final_path);
+			free(cmd->full_cmd[0]);
+			cmd->full_cmd[0] = cmd->is_valid_cmd;
+			return (cmd->full_cmd);
 		}
-		free(final_path);
+		free(cmd->is_valid_cmd);
 		i++;
 	}
-	free_all(path);
+	free_all(cmd->full_cmd);
 	return (NULL);
 }
+
