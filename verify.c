@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:13:48 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/10 08:14:24 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:53:55 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	**get_valid_paths(char **envp)
 	if (paths == NULL || paths[0] == NULL || paths[0][0] == '\0')
 	{
 		ft_putstr_fd("Error\nInvalid path", 2);
+		free_all(paths);
 		return (NULL);
 	}
 	return (paths);
@@ -36,12 +37,13 @@ int	error_command_null(t_cmd *cmd, char **command_path, char *error_message)
 	return (0);
 }
 
+
 int	validate_commands(t_cmd *cmd, char **argv)
 {
 	cmd->good_paths1 = get_path_complete(cmd, cmd->paths, argv[2]);
 	if (!cmd->good_paths1)
 	{
-		ft_putstr_fd("Error: Command not found in PATH\n", 2);
+		ft_putstr_fd("Error: Command 1 not found in PATH\n", 2);
 		return (0);
 	}
 	cmd->good_paths2 = get_path_complete(cmd, cmd->paths, argv[3]);

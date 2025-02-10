@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:12:17 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/10 08:09:24 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:52:43 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	open_outfile(t_cmd *cmd, char **argv)
 	if (cmd->fd_outfile == -1)
 	{
 		ft_putstr_fd("Error opening outfile\n ", 2);
+		close(cmd->fd_infile);
 		exit(1);
 	}
 }

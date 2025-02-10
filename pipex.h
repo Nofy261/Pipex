@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 09:13:19 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/10 08:18:51 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:40:25 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PIPEX_H
 
 # include <fcntl.h>
-# include <stdio.h> // a laisser?
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -38,12 +37,13 @@ typedef struct s_cmd
 	char	*is_valid_cmd;
 }			t_cmd;
 
+
 /* close_fd.c */
 void	close_fds(t_cmd *cmd);
-void	close_fd_child_first(t_cmd *cmd);
+void	close_and_free(t_cmd *cmd);
 
 /* fork_and_exec.c */
-void	child_first(t_cmd *cmd, char **envp);
+void	process_start(t_cmd *cmd, char **envp);
 
 /* free.c */
 void	free_all_paths(t_cmd *cmd);

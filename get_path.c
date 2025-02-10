@@ -6,11 +6,12 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:05:16 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/10 08:06:33 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:54:18 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
 
 char	**find_path(char **envp)
 {
@@ -45,7 +46,7 @@ static int	validate_command(char **full_cmd)
 char	**get_path_complete(t_cmd *cmd, char **path, char *command)
 {
 	int		i;
-
+	
 	cmd->full_cmd = ft_split(command, ' ');
 	if (validate_command(cmd->full_cmd) == 0)
 		return (NULL);
