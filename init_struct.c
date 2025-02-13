@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:07:22 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/10 11:19:40 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:57:06 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	init_struct(t_cmd *cmd)
 	cmd->fd[1] = -1;
 	cmd->fd_infile = -1;
 	cmd->fd_outfile = -1;
+	cmd->error_infile = 0;
+	cmd->error_outfile = 0;
 	cmd->good_paths1 = NULL;
 	cmd->good_paths2 = NULL;
 	cmd->infile = NULL;

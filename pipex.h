@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 09:13:19 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/10 15:40:25 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/13 19:10:32 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
+# include <stdio.h>
 
 typedef struct s_cmd
 {
@@ -27,55 +27,51 @@ typedef struct s_cmd
 	int		fd[2];
 	int		fd_infile;
 	int		fd_outfile;
+	int		error_infile; // si erreur fichier d entree
+	int		error_outfile; // si erreur avec fichier de sortie
 	char	**good_paths1;
 	char	**good_paths2;
 	char	*infile;
 	char	*outfile;
 	char	**paths;
-	char	*tmp;
-	char	**full_cmd;
+	char	*tmp; // ex: /usr/bin/
+	char	**full_cmd; //Ex: cat | grep toi   **full_cmd = cat[0] grep[1] toi[2]
 	char	*is_valid_cmd;
 }			t_cmd;
 
 
-/* close_fd.c */
-void	close_fds(t_cmd *cmd);
-void	close_and_free(t_cmd *cmd);
 
-/* fork_and_exec.c */
-void	process_start(t_cmd *cmd, char **envp);
+void		close_fds(t_cmd *cmd);
+void		close_and_free(t_cmd *cmd);
 
-/* free.c */
-void	free_all_paths(t_cmd *cmd);
-void	*free_all(char **str);
+void		process_start(t_cmd *cmd, char **envp);
 
-/* init_struc.c*/
-void	init_struct(t_cmd *cmd);
+void		free_all_paths(t_cmd *cmd);
+void		*free_all(char **str);
 
-/*  ft_split.c */
-char	**ft_split(char const *s, char c);
+void		init_struct(t_cmd *cmd);
 
-/* get_path.c */
-char	**find_path(char **envp);
-char	**get_path_complete(t_cmd *cmd, char **path, char *command);
+char		**ft_split(char const *s, char c);
+
+char		**find_path(char **envp);
+char		**get_path_complete(t_cmd *cmd, char **path, char *command);
+
+void		open_files(t_cmd *cmd, char **argv);
+
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+size_t		ft_strlen(const char *s);
+char		*ft_strjoin(char const *s1, char const *s2);
+void		ft_putstr_fd(char *str, int fd);
+int			check_envp(char **envp);
+
+char		**get_valid_paths(char **envp);
+//int			validate_commands(t_cmd *cmd, char **argv);
+//int			initialize_pipe(t_cmd *cmd);
 
 
-/* open_file.c */
-void	open_files(t_cmd *cmd, char **argv);
 
-/* utils.c*/
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-size_t	ft_strlen(const char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
-void	ft_putstr_fd(char *str, int fd);
-int		check_envp(char **envp);
-
-/* verif.c */
-char	**get_valid_paths(char **envp);
-int		validate_commands(t_cmd *cmd, char **argv);
-int		initialize_pipe(t_cmd *cmd);
-int		error_command_null(t_cmd *cmd, char **command_path,
-			char *error_message);
-
+void	initialize_pipe(t_cmd *cmd); // test
+void 	validate_command_1(t_cmd *cmd, char **argv); // test
+void 	validate_command_2(t_cmd *cmd, char **argv); // test
 
 #endif
