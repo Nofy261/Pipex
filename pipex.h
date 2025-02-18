@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 09:13:19 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/13 19:10:32 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:47:57 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef struct s_cmd
 }			t_cmd;
 
 
-
 void		close_fds(t_cmd *cmd);
 void		close_and_free(t_cmd *cmd);
 
@@ -56,7 +55,7 @@ char		**ft_split(char const *s, char c);
 char		**find_path(char **envp);
 char		**get_path_complete(t_cmd *cmd, char **path, char *command);
 
-void		open_files(t_cmd *cmd, char **argv);
+int			open_files(t_cmd *cmd, char **argv);
 
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t		ft_strlen(const char *s);
@@ -64,14 +63,10 @@ char		*ft_strjoin(char const *s1, char const *s2);
 void		ft_putstr_fd(char *str, int fd);
 int			check_envp(char **envp);
 
-char		**get_valid_paths(char **envp);
-//int			validate_commands(t_cmd *cmd, char **argv);
-//int			initialize_pipe(t_cmd *cmd);
+char		**get_valid_paths(t_cmd *cmd, char **envp);
 
 
-
-void	initialize_pipe(t_cmd *cmd); // test
-void 	validate_command_1(t_cmd *cmd, char **argv); // test
-void 	validate_command_2(t_cmd *cmd, char **argv); // test
+void	initialize_pipe(t_cmd *cmd);
+void 	validate_command(t_cmd *cmd, char **argv, int *exit_code);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:04:14 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/10 16:00:08 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:46:25 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	*free_all(char **str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		free(str[i]);
 		i++;
