@@ -6,18 +6,17 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:05:16 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/18 19:23:53 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/19 08:24:55 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-
 char	**find_path(char **envp)
 {
 	int		i;
 	char	**path;
-	
+
 	i = 0;
 	while (envp[i])
 	{
@@ -31,10 +30,8 @@ char	**find_path(char **envp)
 	return (NULL);
 }
 
-
 static int	verif_validate_command(char **full_cmd)
 {
-	
 	if (full_cmd == NULL || full_cmd[0] == NULL || full_cmd[0][0] == '\0')
 	{
 		free_all(full_cmd);
@@ -43,11 +40,10 @@ static int	verif_validate_command(char **full_cmd)
 	return (0);
 }
 
-
 char	**get_path_complete(t_cmd *cmd, char **path, char *command)
 {
 	int	i;
-	
+
 	cmd->full_cmd = ft_split(command, ' ');
 	if (verif_validate_command(cmd->full_cmd) == 1)
 		return (NULL);
@@ -68,12 +64,6 @@ char	**get_path_complete(t_cmd *cmd, char **path, char *command)
 		free(cmd->is_valid_cmd);
 		i++;
 	}
-	free_all(cmd->full_cmd); // retourne le tab de tab ("grep toi") = commande entiere
+	free_all(cmd->full_cmd);
 	return (NULL);
 }
-
-
-// tab de tab **full_cmd = {[0 = grep], [1 = toi], NULL};
-// full_cmd[0] = grep; full_cmd[1] = toi;
-// is_valid_cmd = /usr/bin/cat 
-// is_valid_cmd = full_cmd[0] = /usr/bin/grep;

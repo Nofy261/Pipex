@@ -6,12 +6,11 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:13:48 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/18 19:38:28 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/19 09:29:42 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
 
 char	**get_valid_paths(t_cmd *cmd, char **envp)
 {
@@ -36,12 +35,13 @@ void	validate_command(t_cmd *cmd, char **argv, int *exit_code)
 		if (cmd->error_infile == 0)
 		{
 			ft_putstr_fd("Error: Command 1 not found\n", 2);
-			*exit_code = 127;
+			if (cmd->error_outfile == 0)
+				*exit_code = 127;
 		}
 	}
 	cmd->good_paths2 = get_path_complete(cmd, cmd->paths, argv[3]);
 	if (!cmd->good_paths2)
-	{	
+	{
 		if (cmd->error_outfile == 0)
 		{
 			ft_putstr_fd("Error: Command 2 not found\n", 2);
@@ -51,21 +51,6 @@ void	validate_command(t_cmd *cmd, char **argv, int *exit_code)
 	else if (cmd->error_outfile == 0)
 		*exit_code = 0;
 }
-
-
-
-// int validate_command_2(t_cmd *cmd, char **argv) // A VERIFIER SI  A ENLEVER OU PAS???
-// {
-// 	cmd->good_paths2 = get_path_complete(cmd, cmd->paths, argv[3]);
-// 	if (!cmd->good_paths2)
-// 	{	
-// 		ft_putstr_fd("Error: Command 2 not found\n", 2);
-// 		return (127);
-// 	}
-// 	return (0);
-// }
-
-
 
 void	initialize_pipe(t_cmd *cmd)
 {
@@ -77,4 +62,12 @@ void	initialize_pipe(t_cmd *cmd)
 	}
 }
 
-
+int	check_envp(char **envp)
+{
+	if (!envp || !envp[0])
+	{
+		ft_putstr_fd("Error : envp doesn't exist or is empty\n", 2);
+		return (0);
+	}
+	return (1);
+}

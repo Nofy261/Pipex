@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 10:26:58 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/18 19:42:39 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/19 09:15:29 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_cmd	cmd;
 	int		exit_code;
-	
+
 	exit_code = 0;
 	init_struct(&cmd);
 	if (check_envp(envp) == 0)
@@ -39,7 +39,3 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (exit_code);
 }
-
-
-
-

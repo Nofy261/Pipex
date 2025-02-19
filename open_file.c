@@ -6,12 +6,11 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:12:17 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/18 19:25:27 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/19 08:25:28 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
 
 static int	open_infile(t_cmd *cmd, char **argv)
 {
@@ -26,7 +25,6 @@ static int	open_infile(t_cmd *cmd, char **argv)
 	return (0);
 }
 
-
 static int	open_outfile(t_cmd *cmd, char **argv)
 {
 	cmd->outfile = argv[4];
@@ -40,10 +38,9 @@ static int	open_outfile(t_cmd *cmd, char **argv)
 	return (0);
 }
 
-
 int	open_files(t_cmd *cmd, char **argv)
 {
-	int status_code;
+	int	status_code;
 
 	status_code = open_infile(cmd, argv);
 	status_code = open_outfile(cmd, argv);

@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 09:13:19 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/18 19:47:57 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/19 08:25:48 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 # define PIPEX_H
 
 # include <fcntl.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <stdio.h>
 
 typedef struct s_cmd
 {
@@ -27,18 +27,17 @@ typedef struct s_cmd
 	int		fd[2];
 	int		fd_infile;
 	int		fd_outfile;
-	int		error_infile; // si erreur fichier d entree
-	int		error_outfile; // si erreur avec fichier de sortie
+	int		error_infile;
+	int		error_outfile;
 	char	**good_paths1;
 	char	**good_paths2;
 	char	*infile;
 	char	*outfile;
 	char	**paths;
-	char	*tmp; // ex: /usr/bin/
-	char	**full_cmd; //Ex: cat | grep toi   **full_cmd = cat[0] grep[1] toi[2]
+	char	*tmp;
+	char	**full_cmd;
 	char	*is_valid_cmd;
 }			t_cmd;
-
 
 void		close_fds(t_cmd *cmd);
 void		close_and_free(t_cmd *cmd);
@@ -65,8 +64,7 @@ int			check_envp(char **envp);
 
 char		**get_valid_paths(t_cmd *cmd, char **envp);
 
-
-void	initialize_pipe(t_cmd *cmd);
-void 	validate_command(t_cmd *cmd, char **argv, int *exit_code);
+void		initialize_pipe(t_cmd *cmd);
+void		validate_command(t_cmd *cmd, char **argv, int *exit_code);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: nolecler <nolecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:02:23 by nolecler          #+#    #+#             */
-/*   Updated: 2025/02/18 19:42:48 by nolecler         ###   ########.fr       */
+/*   Updated: 2025/02/19 08:23:31 by nolecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	close_fds(t_cmd *cmd)
 		cmd->fd_outfile = -1;
 	}
 }
-
 
 void	close_and_free(t_cmd *cmd)
 {
